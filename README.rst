@@ -9,6 +9,10 @@ Dependencies
 
 `suds-passworddigest <https://pypi.python.org/pypi/suds_passworddigest>`_
 
+https://pypi.python.org/pypi/suds-py3
+https://github.com/miuhaki/suds-passworddigest-py3 (a.k.a. suds_passworddigest 0.1.2.a)
+
+
 Install python-onvif
 --------------------
 **From Source**
