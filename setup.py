@@ -5,8 +5,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 version_path = os.path.join(here, 'onvif/version.txt')
 version = open(version_path).read().strip()
 
-requires = [ 'suds >= 0.4', 'suds-passworddigest' ]
-
+requires = [ 'suds-py3', 'suds-passworddigest>=0.1.2a' ]
+dependency_links = ['https://github.com/miuhaki/suds-passworddigest-py3/tarball/master#egg=suds-passworddigest-0.1.2a']
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Environment :: Console',
@@ -43,6 +43,7 @@ setup(
       zip_safe=False,
       packages=find_packages(exclude=['docs', 'examples', 'tests']),
       install_requires=requires,
+      dependency_links=dependency_links,
       include_package_data=True,
       data_files=[('wsdl', wsdl_files)],
       entry_points={

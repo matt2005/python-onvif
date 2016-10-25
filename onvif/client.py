@@ -1,8 +1,7 @@
 __version__ = '0.0.1'
 
 import os.path
-from types import InstanceType
-import urlparse
+from urllib.parse import urlparse
 import urllib
 from threading import Thread, RLock
 
@@ -19,8 +18,8 @@ from suds.bindings import binding
 binding.envns = ('SOAP-ENV', 'http://www.w3.org/2003/05/soap-envelope')
 
 from onvif.exceptions import ONVIFError
-from definition import SERVICES, NSMAP
-from suds.sax.date import UTC
+from .definition import SERVICES, NSMAP
+from suds.sax.date import DateTime
 import datetime as dt
 # Ensure methods to raise an ONVIFError Exception
 # when some thing was wrong
@@ -50,7 +49,7 @@ class UsernameDigestTokenDtDiff(UsernameDigestToken):
         if self.dt_diff :
             dt_adjusted = (self.dt_diff + dt.datetime.utcnow())
         UsernameToken.setcreated(self, dt=dt_adjusted, *args, **kwargs)
-        self.created = str(UTC(self.created))
+        self.created = str(DateTime(self.created))
 
 
 class ONVIFService(object):
@@ -105,7 +104,7 @@ class ONVIFService(object):
 
 
         # Convert pathname to url
-        self.url = urlparse.urljoin('file:', urllib.pathname2url(url))
+        self.url = urllib.parse.urljoin('file:', urllib.request.pathname2url(url))
         self.xaddr = xaddr
         # Create soap client
         if not ws_client:
@@ -179,7 +178,9 @@ class ONVIFService(object):
                 # No params
                 if params is None:
                     params = {}
-                elif isinstance(params, InstanceType):
+                elif isinstance(params,dict):
+                    params = params
+                else :
                     params = ONVIFService.to_dict(params)
                 ret = func(**params)
                 if callable(callback):
